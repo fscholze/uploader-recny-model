@@ -1,11 +1,12 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 
-export const FileUploader: FC<{}> = () => {
-  const [file, setFile] = useState<File | null>(null)
-
+export const FileUploader: FC<{ file: File | null; onSetFile: (file: File) => void }> = ({
+  file,
+  onSetFile
+}) => {
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      setFile(e.target.files[0])
+      onSetFile(e.target.files[0])
     }
   }
 

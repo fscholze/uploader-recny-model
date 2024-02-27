@@ -11,6 +11,7 @@ export const OutputFormatSelector: FC<{
     <FormGroup>
       {possibleOutputFormats.map((format) => (
         <FormControlLabel
+          key={format}
           control={
             <Checkbox
               checked={outputFormat === format}

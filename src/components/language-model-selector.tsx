@@ -1,7 +1,7 @@
 import { FormGroup, FormControlLabel, Checkbox } from '@mui/material'
 import { FC } from 'react'
 
-const possibleModels: LanguageModel[] = ['FHG', 'HF', 'FB', 'Boza Msa']
+const possibleModels: LanguageModel[] = ['FHG', 'HF', 'FB', 'Boza-Msa']
 
 export const LanguageModelSelector: FC<{
   languageModel: LanguageModel
@@ -11,6 +11,7 @@ export const LanguageModelSelector: FC<{
     <FormGroup>
       {possibleModels.map((model) => (
         <FormControlLabel
+          key={model}
           control={
             <Checkbox
               checked={languageModel === model}

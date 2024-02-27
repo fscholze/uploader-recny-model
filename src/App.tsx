@@ -5,35 +5,81 @@ import { FC, useState } from 'react'
 import { OutputFormatSelector } from './components/output-format-selector'
 import { generateId } from './helper/random'
 import { LinearProgressWithLabel } from './components/linear-progress-with-label'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'HF'
 const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'Text'
-const url = generateId(32)
+const token = generateId(32)
 
 const App: FC<{}> = () => {
   const [choosenModel, setChoosenModel] = useState<LanguageModel>(DEFAULT_LANGUAGE_MODEL)
   const [outputFormat, setOutputFormat] = useState<OutputFormat>(DEFAULT_OUTPUT_FORMAT)
   const [isLoading, setIsLoading] = useState(false)
   const [progress, setProgess] = useState(0)
+  const [file, setFile] = useState<File | null>(null)
+  const [resultFileUrl, setResultFileUrl] = useState<string | null>(null)
 
   const onStartUpload = () => {
     setIsLoading(true)
+    if (file) {
+      const formData = new FormData()
+      formData.append('fileName', file.name)
+      formData.append('token', token)
+      formData.append('languageModel', choosenModel)
+      formData.append('outputFormat', outputFormat)
+      formData.append('file', file)
 
-    setTimeout(() => setProgess(10), 1000)
-    setTimeout(() => setProgess(20), 2000)
-    setTimeout(() => setProgess(30), 3000)
-    setTimeout(() => setProgess(40), 3500)
-    setTimeout(() => setProgess(50), 4000)
-    setTimeout(() => setProgess(60), 4300)
-    setTimeout(() => setProgess(70), 5000)
-    setTimeout(() => setProgess(80), 6000)
-    setTimeout(() => setProgess(100), 6300)
+      setIsLoading(true)
+      setProgess(0)
+      axios
+        .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
+          headers: {
+            'content-type': 'multipart/form-data'
+          },
+          onUploadProgress: function (progressEvent) {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / (progressEvent.total ?? 1)
+            )
+            setProgess(percentCompleted)
+          }
+        })
+        .then((response) => {
+          toast('Start 🚀')
+          getStatus()
+        })
+        .catch((error) => {
+          toast.error('Zmylk', error.message)
+          setIsLoading(false)
+        })
+    }
+  }
+  const getStatus = () => {
+    setTimeout(() => {
+      axios
+        .get(process.env.REACT_APP_SERVER_URL + '/status?token=' + token)
+        .then((response) => {
+          if (response.data === -1) {
+            setProgess(100)
+            setResultFileUrl(
+              `${process.env.REACT_APP_SERVER_URL}/uploads/${token}/${file?.name}.${outputFormat}`
+            )
+            toast('Dataja je so analysowala 🎉')
+          } else {
+            setProgess(response.data)
+            getStatus()
+          }
+        })
+        .catch((error) => {})
+    }, 1000)
   }
 
   return (
     <Container>
+      <ToastContainer />
       <Typography variant='h3'>File Uploader</Typography>
-      <FileUploader />
+      <FileUploader file={file} onSetFile={setFile} />
       <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: 200 }}>
         <LanguageModelSelector
           languageModel={choosenModel}
@@ -42,20 +88,22 @@ const App: FC<{}> = () => {
         <OutputFormatSelector outputFormat={outputFormat} onChangeOutputFormat={setOutputFormat} />
       </Box>
 
-      <Button onClick={onStartUpload}>Upload</Button>
+      <Button onClick={onStartUpload} disabled={file === null}>
+        Upload
+      </Button>
 
       {isLoading === true && (
         <>
-          <Typography>is loading.... and saving stuff in {url}</Typography>
+          <Typography>is loading.... and saving stuff in {token}</Typography>
           <LinearProgressWithLabel progress={progress} />
         </>
       )}
 
-      {isLoading === true && progress === 100 && (
+      {resultFileUrl && (
         <>
           <Typography>Done!</Typography>
           <Typography>
-            Twoj Link je: <a href={url}>Link</a>
+            Twoj Link je: <a href={resultFileUrl}>Link</a>
           </Typography>
         </>
       )}
