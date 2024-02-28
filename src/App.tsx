@@ -63,7 +63,7 @@ const App: FC<{}> = () => {
           if (response.data === -1) {
             setProgess(100)
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/uploads/${token}/${file?.name}.${outputFormat}`
+              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}.${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
