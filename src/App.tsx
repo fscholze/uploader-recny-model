@@ -17,7 +17,10 @@ const App: FC<{}> = () => {
   const [choosenModel, setChoosenModel] = useState<LanguageModel>(DEFAULT_LANGUAGE_MODEL)
   const [outputFormat, setOutputFormat] = useState<OutputFormat>(DEFAULT_OUTPUT_FORMAT)
   const [isLoading, setIsLoading] = useState(false)
-  const [progress, setProgess] = useState(0)
+  const [progress, setProgess] = useState<{ status: number; message: string }>({
+    status: 0,
+    message: ''
+  })
   const [file, setFile] = useState<File | null>(null)
   const [resultFileUrl, setResultFileUrl] = useState<string | null>(null)
 
@@ -32,21 +35,24 @@ const App: FC<{}> = () => {
       formData.append('file', file)
 
       setIsLoading(true)
-      setProgess(0)
+      setProgess({ status: 0, message: 'Uploading' })
       axios
         .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
           headers: {
             'content-type': 'multipart/form-data'
-          },
-          onUploadProgress: function (progressEvent) {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / (progressEvent.total ?? 1)
-            )
-            setProgess(percentCompleted)
           }
+          // onUploadProgress: function (progressEvent) {
+          //   const percentCompleted = Math.round(
+          //     (progressEvent.loaded * 100) / (progressEvent.total ?? 1)
+          //   )
+
+          //   setProgess({ status: percentCompleted, message: 'Uploading' })
+          // }
         })
         .then((response) => {
           toast('Start 🚀')
+          setProgess({ status: 0, message: 'Uploading' })
+          console.log(response.data)
           getStatus()
         })
         .catch((error) => {
@@ -60,18 +66,21 @@ const App: FC<{}> = () => {
       axios
         .get(process.env.REACT_APP_SERVER_URL + '/status?token=' + token)
         .then((response) => {
-          if (response.data === -1) {
-            setProgess(100)
+          const { done, status, message } = response.data
+          setProgess({ status, message })
+          if (done === true) {
             setResultFileUrl(
               `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}.${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
-            setProgess(response.data)
             getStatus()
           }
         })
-        .catch((error) => {})
+        .catch((error) => {
+          toast.error('Zmylk', error.message)
+          setIsLoading(false)
+        })
     }, 1000)
   }
 
@@ -94,8 +103,8 @@ const App: FC<{}> = () => {
 
       {isLoading === true && (
         <>
-          <Typography>is loading.... and saving stuff in {token}</Typography>
-          <LinearProgressWithLabel progress={progress} />
+          <Typography>is loading.... {progress.message}</Typography>
+          <LinearProgressWithLabel progress={progress.status} />
         </>
       )}
 
