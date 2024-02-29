@@ -10,8 +10,8 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { formatSecondsToReadableDuration } from './helper/dates'
 
-const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'HF'
-const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'TXT'
+const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'BOZA_MSA'
+const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'SRT'
 const INVALID_DURATION = -1
 
 const token = generateId(32)
