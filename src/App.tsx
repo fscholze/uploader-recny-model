@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { formatSecondsToReadableDuration } from './helper/dates'
 
 const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'HF'
-const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'Text'
+const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'TXT'
 const INVALID_DURATION = -1
 
 const token = generateId(32)

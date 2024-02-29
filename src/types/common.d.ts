@@ -1,3 +1,3 @@
-type LanguageModel = 'FHG' | 'HF' | 'FB' | 'Boza-Msa'
+type LanguageModel = 'FHG' | 'HF' | 'FB' | 'BOZA_MSA'
 
-type OutputFormat = 'Text' | 'srt'
+type OutputFormat = 'TXT' | 'SRT'
