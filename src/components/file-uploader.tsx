@@ -14,17 +14,17 @@ export const FileUploader: FC<{ file: File | null; onSetFile: (file: File) => vo
     <>
       <div>
         <label htmlFor='file' className='sr-only'>
-          Choose a file
+          Wuzwol dataju
         </label>
         <input id='file' type='file' onChange={onFileChange} />
       </div>
       {file && (
         <section>
-          File details:
+          Drobnosće dataje:
           <ul>
-            <li>Name: {file.name}</li>
-            <li>Type: {file.type}</li>
-            <li>Size: {file.size} bytes</li>
+            <li>Mjeno: {file.name}</li>
+            <li>Typ: {file.type}</li>
+            <li>Wulkosć: {file.size} bytes</li>
           </ul>
         </section>
       )}

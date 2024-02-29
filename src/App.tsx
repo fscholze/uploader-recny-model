@@ -40,7 +40,7 @@ const App: FC<{}> = () => {
       formData.append('file', file)
 
       setIsLoading(true)
-      setProgess({ status: 0, message: 'Uploading', duration: INVALID_DURATION })
+      setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
       axios
         .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
           headers: {
@@ -49,7 +49,7 @@ const App: FC<{}> = () => {
         })
         .then((response) => {
           toast('Start 🚀')
-          setProgess({ status: 0, message: 'Uploading', duration: INVALID_DURATION })
+          setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
           console.log(response.data)
           getStatus()
         })
@@ -85,7 +85,7 @@ const App: FC<{}> = () => {
   return (
     <Container>
       <ToastContainer />
-      <Typography variant='h3'>File Uploader</Typography>
+      <Typography variant='h3'>Spóznawanje rěče</Typography>
       <FileUploader file={file} onSetFile={setFile} />
       <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: 200 }}>
         <LanguageModelSelector
@@ -101,10 +101,10 @@ const App: FC<{}> = () => {
 
       {isLoading === true && (
         <>
-          <Typography>is loading.... {progress.message}</Typography>
+          <Typography>Začitam.... {progress.message}</Typography>
           {progress.duration !== INVALID_DURATION && (
             <Typography>
-              Predzewanje budze nekak {formatSecondsToReadableDuration(progress.duration)}h trac.
+              Předźěłanje budźe někak {formatSecondsToReadableDuration(progress.duration)}h trać.
             </Typography>
           )}
           <LinearProgressWithLabel progress={progress.status} />
@@ -113,9 +113,9 @@ const App: FC<{}> = () => {
 
       {resultFileUrl && (
         <>
-          <Typography>Done!</Typography>
+          <Typography>Hotowe!</Typography>
           <Typography>
-            Twoj Link je: <a href={resultFileUrl}>Link</a>
+            Twój wotkaz je <a href={resultFileUrl}>tule</a>.
           </Typography>
         </>
       )}
