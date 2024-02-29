@@ -115,7 +115,7 @@ const App: FC<{}> = () => {
         <>
           <Typography>Hotowe!</Typography>
           <Typography>
-            Twój wotkaz je: <a href={resultFileUrl}>Link</a>
+            Twój wotkaz je <a href={resultFileUrl}>tule</a>.
           </Typography>
         </>
       )}

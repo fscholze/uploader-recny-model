@@ -14,7 +14,7 @@ export const FileUploader: FC<{ file: File | null; onSetFile: (file: File) => vo
     <>
       <div>
         <label htmlFor='file' className='sr-only'>
-          Choose a file
+          Wuzwol dataju
         </label>
         <input id='file' type='file' onChange={onFileChange} />
       </div>
