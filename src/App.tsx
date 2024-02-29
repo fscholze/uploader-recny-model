@@ -8,19 +8,24 @@ import { LinearProgressWithLabel } from './components/linear-progress-with-label
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { formatSecondsToReadableDuration } from './helper/dates'
 
 const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'HF'
 const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'Text'
+const INVALID_DURATION = -1
+
 const token = generateId(32)
 
 const App: FC<{}> = () => {
   const [choosenModel, setChoosenModel] = useState<LanguageModel>(DEFAULT_LANGUAGE_MODEL)
   const [outputFormat, setOutputFormat] = useState<OutputFormat>(DEFAULT_OUTPUT_FORMAT)
   const [isLoading, setIsLoading] = useState(false)
-  const [progress, setProgess] = useState<{ status: number; message: string }>({
+  const [progress, setProgess] = useState<{ status: number; message: string; duration: number }>({
     status: 0,
-    message: ''
+    message: '',
+    duration: INVALID_DURATION // set duration of server calculation in seconds
   })
+
   const [file, setFile] = useState<File | null>(null)
   const [resultFileUrl, setResultFileUrl] = useState<string | null>(null)
 
@@ -35,7 +40,7 @@ const App: FC<{}> = () => {
       formData.append('file', file)
 
       setIsLoading(true)
-      setProgess({ status: 0, message: 'Uploading' })
+      setProgess({ status: 0, message: 'Uploading', duration: INVALID_DURATION })
       axios
         .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
           headers: {
@@ -51,7 +56,7 @@ const App: FC<{}> = () => {
         })
         .then((response) => {
           toast('Start 🚀')
-          setProgess({ status: 0, message: 'Uploading' })
+          setProgess({ status: 0, message: 'Uploading', duration: INVALID_DURATION })
           console.log(response.data)
           getStatus()
         })
@@ -66,8 +71,8 @@ const App: FC<{}> = () => {
       axios
         .get(process.env.REACT_APP_SERVER_URL + '/status?token=' + token)
         .then((response) => {
-          const { done, status, message } = response.data
-          setProgess({ status, message })
+          const { duration, done, status, message } = response.data
+          setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
               `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}.${outputFormat}`
@@ -103,6 +108,13 @@ const App: FC<{}> = () => {
 
       {isLoading === true && (
         <>
+          <Typography>
+            Predzewanje budze nekak{' '}
+            {progress.duration === INVALID_DURATION
+              ? '...'
+              : formatSecondsToReadableDuration(progress.duration)}
+            h trac.
+          </Typography>
           <Typography>is loading.... {progress.message}</Typography>
           <LinearProgressWithLabel progress={progress.status} />
         </>
