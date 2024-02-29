@@ -101,14 +101,12 @@ const App: FC<{}> = () => {
 
       {isLoading === true && (
         <>
-          <Typography>
-            Predzewanje budze nekak{' '}
-            {progress.duration === INVALID_DURATION
-              ? '...'
-              : formatSecondsToReadableDuration(progress.duration)}
-            h trac.
-          </Typography>
           <Typography>is loading.... {progress.message}</Typography>
+          {progress.duration !== INVALID_DURATION && (
+            <Typography>
+              Predzewanje budze nekak {formatSecondsToReadableDuration(progress.duration)}h trac.
+            </Typography>
+          )}
           <LinearProgressWithLabel progress={progress.status} />
         </>
       )}
