@@ -68,7 +68,7 @@ const App: FC<{}> = () => {
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}&outputFormat${outputFormat}`
+              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}&outputFormat=${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
