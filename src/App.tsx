@@ -46,13 +46,6 @@ const App: FC<{}> = () => {
           headers: {
             'content-type': 'multipart/form-data'
           }
-          // onUploadProgress: function (progressEvent) {
-          //   const percentCompleted = Math.round(
-          //     (progressEvent.loaded * 100) / (progressEvent.total ?? 1)
-          //   )
-
-          //   setProgess({ status: percentCompleted, message: 'Uploading' })
-          // }
         })
         .then((response) => {
           toast('Start 🚀')
@@ -75,7 +68,7 @@ const App: FC<{}> = () => {
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}.${outputFormat}`
+              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}&outputFormat${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
