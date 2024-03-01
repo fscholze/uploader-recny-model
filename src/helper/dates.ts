@@ -1,6 +1,6 @@
 export const formatSecondsToReadableDuration = (seconds: number): string => {
-  const hours = Math.floor(seconds / 3600)
-  const minutes = Math.floor((seconds % 3600) / 60)
-  const remainingSeconds = seconds % 60
+  const hours = `0${Math.floor(seconds / 3600)}`.slice(-2)
+  const minutes = `0${Math.floor((seconds % 3600) / 60)}`.slice(-2)
+  const remainingSeconds = `0${seconds % 60}`.slice(-2)
   return `${hours}:${minutes}:${remainingSeconds}`
 }
