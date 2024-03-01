@@ -90,11 +90,20 @@ const App: FC<{}> = () => {
   }
 
   return (
-    <Container>
+    <Container
+      sx={{
+        justifyContent: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: 4
+      }}
+    >
+      <img src='images/header.png' alt='spoznawanje rece' style={{ maxHeight: 400 }} />
       <ToastContainer />
-      <Typography variant='h3'>Spóznawanje rěče</Typography>
+      <Box sx={{ height: 10 }}></Box>
       <FileUploader file={file} isDisabled={isLoading} onSetFile={setFile} />
-      <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: 200 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: 200, paddingTop: 1 }}>
         <LanguageModelSelector
           languageModel={choosenModel}
           isDisabled={isLoading}
