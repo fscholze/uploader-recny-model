@@ -6,8 +6,9 @@ const possibleModels: LanguageModel[] = ['FHG', 'HF', 'FB', 'BOZA_MSA', 'DEVEL']
 
 export const LanguageModelSelector: FC<{
   languageModel: LanguageModel
+  isDisabled: boolean
   onChangeLanguageModel: (model: LanguageModel) => void
-}> = ({ languageModel, onChangeLanguageModel }) => {
+}> = ({ languageModel, isDisabled, onChangeLanguageModel }) => {
   return (
     <FormGroup>
       {possibleModels.map((model) => (
@@ -16,6 +17,7 @@ export const LanguageModelSelector: FC<{
             key={model}
             control={
               <Checkbox
+                disabled={isDisabled}
                 checked={languageModel === model}
                 onChange={(e) => {
                   if (e.target.checked) onChangeLanguageModel(model)

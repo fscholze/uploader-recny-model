@@ -6,8 +6,9 @@ const possibleOutputFormats: OutputFormat[] = ['TXT', 'SRT']
 
 export const OutputFormatSelector: FC<{
   outputFormat: OutputFormat
+  isDisabled: boolean
   onChangeOutputFormat: (format: OutputFormat) => void
-}> = ({ outputFormat, onChangeOutputFormat }) => {
+}> = ({ outputFormat, isDisabled, onChangeOutputFormat }) => {
   return (
     <FormGroup>
       {possibleOutputFormats.map((format) => (
@@ -16,6 +17,7 @@ export const OutputFormatSelector: FC<{
             key={format}
             control={
               <Checkbox
+                disabled={isDisabled}
                 checked={outputFormat === format}
                 onChange={(e) => {
                   if (e.target.checked) onChangeOutputFormat(format)

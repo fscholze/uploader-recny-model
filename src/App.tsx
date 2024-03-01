@@ -14,7 +14,7 @@ const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'BOZA_MSA'
 const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'SRT'
 const INVALID_DURATION = -1
 
-const token = generateId(32)
+let token = generateId(32)
 
 const App: FC<{}> = () => {
   const [choosenModel, setChoosenModel] = useState<LanguageModel>(DEFAULT_LANGUAGE_MODEL)
@@ -28,6 +28,14 @@ const App: FC<{}> = () => {
 
   const [file, setFile] = useState<File | null>(null)
   const [resultFileUrl, setResultFileUrl] = useState<string | null>(null)
+
+  const resetInputs = () => {
+    token = generateId(32)
+    setFile(null)
+    setResultFileUrl(null)
+    setIsLoading(false)
+    setProgess({ status: 0, message: '', duration: INVALID_DURATION })
+  }
 
   const onStartUpload = () => {
     setIsLoading(true)
@@ -50,7 +58,6 @@ const App: FC<{}> = () => {
         .then((response) => {
           toast('Start 🚀')
           setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
-          console.log(response.data)
           getStatus()
         })
         .catch((error) => {
@@ -86,18 +93,27 @@ const App: FC<{}> = () => {
     <Container>
       <ToastContainer />
       <Typography variant='h3'>Spóznawanje rěče</Typography>
-      <FileUploader file={file} onSetFile={setFile} />
+      <FileUploader file={file} isDisabled={isLoading} onSetFile={setFile} />
       <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: 200 }}>
         <LanguageModelSelector
           languageModel={choosenModel}
+          isDisabled={isLoading}
           onChangeLanguageModel={setChoosenModel}
         />
-        <OutputFormatSelector outputFormat={outputFormat} onChangeOutputFormat={setOutputFormat} />
+        <OutputFormatSelector
+          outputFormat={outputFormat}
+          isDisabled={isLoading}
+          onChangeOutputFormat={setOutputFormat}
+        />
       </Box>
 
-      <Button onClick={onStartUpload} disabled={file === null}>
-        Upload
-      </Button>
+      {resultFileUrl ? (
+        <Button onClick={resetInputs}>Dalšu dataju</Button>
+      ) : (
+        <Button onClick={onStartUpload} disabled={file === null || isLoading}>
+          Upload
+        </Button>
+      )}
 
       {isLoading === true && (
         <>
