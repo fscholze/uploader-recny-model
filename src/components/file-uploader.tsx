@@ -24,7 +24,7 @@ export const FileUploader: FC<{
     <>
       <div>
         <label htmlFor='file' className='sr-only'>
-          Wuzwol dataju
+          Wuzwol dataju{' '}
         </label>
         <input
           id='file'
