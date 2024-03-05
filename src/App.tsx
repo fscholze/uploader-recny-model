@@ -38,6 +38,11 @@ const App: FC<{}> = () => {
     setProgess({ status: 0, message: '', duration: INVALID_DURATION })
   }
 
+  const onSetFile = (file: File) => {
+    const parsedFile = new File([file], sanitize(file.name), { type: file.type })
+    setFile(parsedFile)
+  }
+
   const onStartUpload = () => {
     setIsLoading(true)
     if (file) {
@@ -103,7 +108,7 @@ const App: FC<{}> = () => {
       <img src='images/header.png' alt='spoznawanje rece' style={{ maxHeight: 400 }} />
       <ToastContainer />
       <Box sx={{ height: 10 }}></Box>
-      <FileUploader file={file} isDisabled={isLoading} onSetFile={setFile} />
+      <FileUploader file={file} isDisabled={isLoading} onSetFile={onSetFile} />
       <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: 200, paddingTop: 1 }}>
         <LanguageModelSelector
           languageModel={choosenModel}

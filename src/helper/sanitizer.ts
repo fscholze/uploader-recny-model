@@ -1,8 +1,9 @@
-const illegalRe = /[\/\?<>\\:\*\|"]/g
+const illegalRe = /[/?<>\\:*|"]/g
+// eslint-disable-next-line no-control-regex
 const controlRe = /[\x00-\x1f\x80-\x9f]/g
 const reservedRe = /^\.+$/
 const windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i
-const windowsTrailingRe = /[\. ]+$/
+const windowsTrailingRe = /[. ]+$/
 const punctions1 = /[\u0020-\u002f]/g
 const punctions2 = /[\u003a-\u0040]/g
 const punctions3 = /[\u005b-\u005e]/g
@@ -11,6 +12,7 @@ const punctions5 = /[\u007b]/g
 const punctions6 = /[\u00a0-\u3000]/g
 
 export const sanitize = (input: string, replacement: string = '') => {
+  console.log({ input })
   const extension = input.split('.').pop() ?? 'none'
   const sanitized = removeExtension(input)
     .normalize('NFD')
