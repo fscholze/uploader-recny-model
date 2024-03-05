@@ -9,6 +9,7 @@ import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { formatSecondsToReadableDuration } from './helper/dates'
+import { sanitize } from './helper/sanitizer'
 
 const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'BOZA_MSA'
 const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'SRT'
@@ -41,7 +42,7 @@ const App: FC<{}> = () => {
     setIsLoading(true)
     if (file) {
       const formData = new FormData()
-      formData.append('fileName', file.name)
+      formData.append('filename', sanitize(file.name))
       formData.append('token', token)
       formData.append('languageModel', choosenModel)
       formData.append('outputFormat', outputFormat)
@@ -75,7 +76,7 @@ const App: FC<{}> = () => {
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${file?.name}&outputFormat=${outputFormat}`
+              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
