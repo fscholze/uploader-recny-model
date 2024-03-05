@@ -38,9 +38,8 @@ export const FileUploader: FC<{
         <section>
           Drobnosće dataje:
           <ul>
-            <li>Mjeno: {file.name}</li>
-            <li>Typ: {file.type}</li>
-            <li>Wulkosć: {file.size} bytes</li>
+            <li>typ dataje: {file.type}</li>
+            <li>wulkosć: {file.size} bytes</li>
           </ul>
         </section>
       )}

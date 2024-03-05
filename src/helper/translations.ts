@@ -3,15 +3,15 @@ export const getLanguageModelText = (
 ): { title: string; description: string } => {
   switch (model) {
     case 'FHG':
-      return { title: 'FHG powšitkowne', description: 'Fraunhofer recIKTS - powšitkowny model' }
+      return { title: 'powšitkowny klasiski model', description: 'hišće njeje přistupne - Fraunhofer recIKTS' }
     case 'HF':
-      return { title: 'HuggingFace', description: 'HuggingFace Whsiper' }
+      return { title: 'powšitkowny KI model (doporučene)', description: 'za powŝitkowne rozmołwy - HuggingFace Whisper "small" wusměrjene na Hornjoserbšćinu' }
     case 'FB':
-      return { title: 'Facebook', description: 'Facebook MMS' }
+      return { title: 'wjacerěčny KI model', description: 'za powŝitkowne rozmołwy - Facebook MMS' }
     case 'BOZA_MSA':
-      return { title: 'FHG bože mšě', description: 'Fraunhofer recIKTS - model za bože mšě' }
+      return { title: 'klasiski model za bože mšě', description: 'wusměrjene na cyrkwinsku rěč - Fraunhofer recIKTS' }
     case 'DEVEL':
-      return { title: 'Wuwiće', description: 'Ryzy simulacija - nic wužiwać' }
+      return { title: 'simulator', description: 'jenož za wuwiwarjow' }
   }
 }
 
@@ -20,8 +20,8 @@ export const getOutputFormatText = (
 ): { title: string; description: string } => {
   switch (format) {
     case 'TXT':
-      return { title: 'txt', description: 'Ryzy tekst' }
+      return { title: 'txt', description: 'ryzy tekst - bjez markěrowanjow' }
     case 'SRT':
-      return { title: 'srt', description: 'Podtitle za widejo' }
+      return { title: 'srt', description: 'podtitle za widejo - z markěrowanjemi' }
   }
 }
