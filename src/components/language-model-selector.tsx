@@ -2,16 +2,18 @@ import { FormGroup, FormControlLabel, Checkbox, Tooltip } from '@mui/material'
 import { FC } from 'react'
 import { getLanguageModelText } from '../helper/translations'
 
-const possibleModels: LanguageModel[] = ['FHG', 'HF', 'FB', 'BOZA_MSA', 'DEVEL']
+const possibleModelsDefault: Partial<LanguageModel>[] = ['BOZA_MSA', 'HF']
+const possibleModelsExperimental: LanguageModel[] = ['FB', 'FHG', 'DEVEL']
 
 export const LanguageModelSelector: FC<{
   languageModel: LanguageModel
   isDisabled: boolean
+  experimentalOptions?: boolean
   onChangeLanguageModel: (model: LanguageModel) => void
-}> = ({ languageModel, isDisabled, onChangeLanguageModel }) => {
+}> = ({ experimentalOptions = false, languageModel, isDisabled, onChangeLanguageModel }) => {
   return (
     <FormGroup>
-      {possibleModels.map((model) => (
+      {(experimentalOptions ? possibleModelsExperimental : possibleModelsDefault).map((model) => (
         <Tooltip key={model} title={getLanguageModelText(model).description}>
           <FormControlLabel
             key={model}

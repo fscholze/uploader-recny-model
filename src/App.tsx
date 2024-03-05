@@ -1,4 +1,4 @@
-import { Box, Button, Container, Typography } from '@mui/material'
+import { Box, Button, Container, IconButton, Typography } from '@mui/material'
 import { FileUploader } from './components/file-uploader'
 import { LanguageModelSelector } from './components/language-model-selector'
 import { FC, useState } from 'react'
@@ -10,6 +10,8 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { formatSecondsToReadableDuration } from './helper/dates'
 import { sanitize } from './helper/sanitizer'
+import LoadingButton from '@mui/lab/LoadingButton'
+import { KeyboardArrowDown, KeyboardArrowUp, CloudUploadOutlined } from '@mui/icons-material'
 
 const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'BOZA_MSA'
 const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'SRT'
@@ -26,7 +28,7 @@ const App: FC<{}> = () => {
     message: '',
     duration: INVALID_DURATION // set duration of server calculation in seconds
   })
-
+  const [devModeOpened, setDevModeOpened] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [resultFileUrl, setResultFileUrl] = useState<string | null>(null)
 
@@ -53,7 +55,6 @@ const App: FC<{}> = () => {
       formData.append('outputFormat', outputFormat)
       formData.append('file', file)
 
-      setIsLoading(true)
       setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
       axios
         .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
@@ -95,62 +96,114 @@ const App: FC<{}> = () => {
     }, 1000)
   }
 
+  const onClickDevMode = () => {
+    if (devModeOpened) {
+      setChoosenModel(DEFAULT_LANGUAGE_MODEL)
+    }
+    setDevModeOpened(!devModeOpened)
+  }
+
   return (
-    <Container
-      sx={{
+    <div
+      style={{
+        backgroundImage: `url(${process.env.PUBLIC_URL + 'images/background.jpg'})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        height: '100vh',
+        width: '100vw',
         justifyContent: 'center',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: 4
+        alignItems: 'center'
       }}
     >
-      <img src='images/header.png' alt='spoznawanje rece' style={{ maxHeight: 400 }} />
-      <ToastContainer />
-      <Box sx={{ height: 10 }}></Box>
-      <FileUploader file={file} isDisabled={isLoading} onSetFile={onSetFile} />
-      <Box sx={{ display: 'flex', justifyContent: 'space-around', maxWidth: 200, paddingTop: 1 }}>
-        <LanguageModelSelector
-          languageModel={choosenModel}
-          isDisabled={isLoading}
-          onChangeLanguageModel={setChoosenModel}
-        />
-        <OutputFormatSelector
-          outputFormat={outputFormat}
-          isDisabled={isLoading}
-          onChangeOutputFormat={setOutputFormat}
-        />
-      </Box>
+      <Container
+        maxWidth='sm'
+        sx={{
+          paddingTop: 4,
+          backgroundColor: 'rgba(255, 255, 255, 0.6)',
+          borderRadius: 5,
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center',
+          maxHeight: '95%',
+          overflowY: 'scroll',
+          paddingBottom: 10
+        }}
+      >
+        <ToastContainer />
+        <Box sx={{ height: 10 }}></Box>
+        <Typography variant='h2'>Spóznawanje rěče</Typography>
+        <Typography variant='h6' sx={{ paddingBottom: 2 }}>
+          BETA werzija *** StT-HS-V.003
+        </Typography>
+        <FileUploader file={file} isDisabled={isLoading} onSetFile={onSetFile} />
+        <Typography variant='h6' sx={{ paddingTop: 3 }}>
+          Zaměr a format wuzwolić
+        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', paddingTop: 1 }}>
+          <LanguageModelSelector
+            languageModel={choosenModel}
+            isDisabled={isLoading}
+            onChangeLanguageModel={setChoosenModel}
+          />
+          <OutputFormatSelector
+            outputFormat={outputFormat}
+            isDisabled={isLoading}
+            onChangeOutputFormat={setOutputFormat}
+          />
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', paddingTop: 1 }}>
+          <Typography variant='h6'>Eksperimentelne opcije</Typography>
+          <IconButton onClick={onClickDevMode}>
+            {devModeOpened ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </Box>
+        {devModeOpened && (
+          <LanguageModelSelector
+            languageModel={choosenModel}
+            isDisabled={isLoading}
+            onChangeLanguageModel={setChoosenModel}
+            experimentalOptions
+          />
+        )}
 
-      {resultFileUrl ? (
-        <Button onClick={resetInputs}>Dalšu dataju</Button>
-      ) : (
-        <Button onClick={onStartUpload} disabled={file === null || isLoading}>
-          Upload
-        </Button>
-      )}
-
-      {isLoading === true && (
-        <>
-          <Typography>Začitam.... {progress.message}</Typography>
-          {progress.duration !== INVALID_DURATION && (
+        {resultFileUrl ? (
+          <Button onClick={resetInputs}>Dalšu dataju</Button>
+        ) : (
+          <LoadingButton
+            onClick={onStartUpload}
+            loading={isLoading}
+            loadingPosition='start'
+            startIcon={<CloudUploadOutlined />}
+            variant='contained'
+            disabled={file === null}
+          >
+            <span>Upload</span>
+          </LoadingButton>
+        )}
+        {isLoading === true && (
+          <>
+            <Typography>Začitam.... {progress.message}</Typography>
+            {progress.duration !== INVALID_DURATION && (
+              <Typography>
+                Předźěłanje budźe někak {formatSecondsToReadableDuration(progress.duration)}h trać.
+              </Typography>
+            )}
+            <LinearProgressWithLabel progress={progress.status} />
+          </>
+        )}
+        {resultFileUrl && (
+          <>
+            <Typography>Hotowe!</Typography>
             <Typography>
-              Předźěłanje budźe někak {formatSecondsToReadableDuration(progress.duration)}h trać.
+              Twój wotkaz je <a href={resultFileUrl}>tule</a>.
             </Typography>
-          )}
-          <LinearProgressWithLabel progress={progress.status} />
-        </>
-      )}
-
-      {resultFileUrl && (
-        <>
-          <Typography>Hotowe!</Typography>
-          <Typography>
-            Twój wotkaz je <a href={resultFileUrl}>tule</a>.
-          </Typography>
-        </>
-      )}
-    </Container>
+          </>
+        )}
+      </Container>
+    </div>
   )
 }
 
