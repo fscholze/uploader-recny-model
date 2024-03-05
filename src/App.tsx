@@ -120,7 +120,7 @@ const App: FC<{}> = () => {
       <Container
         maxWidth='sm'
         sx={{
-          paddingTop: 10,
+          paddingTop: 5,
           backgroundColor: 'rgba(255, 255, 255, 0.6)',
           borderRadius: 5,
           display: 'flex',
