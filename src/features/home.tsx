@@ -115,7 +115,7 @@ const Home: FC<{}> = () => {
     >
       <Typography variant='h2'>Spóznawanje rěče</Typography>
       <Typography variant='h6' sx={{ paddingBottom: 2 }}>
-        BETA werzija *** StT-HS-V.003
+        BETA werzija *** StT-HSB-V0.0.10
       </Typography>
       <FileUploader file={file} isDisabled={isLoading} onSetFile={onSetFile} />
       <Typography variant='h6' sx={{ paddingTop: 3 }}>
