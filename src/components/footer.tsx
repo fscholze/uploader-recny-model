@@ -1,7 +1,7 @@
 import { Box, Link, Stack, Typography } from '@mui/material'
 import { FC } from 'react'
-
-export const FOOTER_HEIGHT = 80
+import { FOOTER_HEIGHT } from '../types/constants'
+import { ROUTES } from '../routes/default'
 
 export const Footer: FC<{}> = () => (
   <Box
@@ -11,7 +11,7 @@ export const Footer: FC<{}> = () => (
       position: 'absolute',
       left: 0,
       bottom: 0,
-      FOOTER_HEIGHT: 80,
+      FOOTER_HEIGHT: FOOTER_HEIGHT,
       padding: 1
     }}
   >
@@ -58,11 +58,11 @@ export const Footer: FC<{}> = () => (
         </Stack>
       </div>
 
-      <Link href='impressum' color='inherit' underline='hover'>
+      <Link href={ROUTES.imprint} color='inherit' underline='hover'>
         Impressum
       </Link>
 
-      <Link href='datowy-skit' color='inherit' underline='hover'>
+      <Link href={ROUTES['datowy-skit']} color='inherit' underline='hover'>
         Datowy škit
       </Link>
     </Stack>
