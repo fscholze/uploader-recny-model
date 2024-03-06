@@ -108,6 +108,18 @@ export const Footer: FC<{}> = () => (
               (homepage)
             </Link>
           </Typography>
+          <Typography variant='caption'>
+            Wuwiće strony{' '}
+            <Link
+              href='https://fs-coding.com/'
+              target='_blank'
+              rel='noopener'
+              color='inherit'
+              underline='hover'
+            >
+              (homepage)
+            </Link>
+          </Typography>
         </Stack>
       </div>
       
