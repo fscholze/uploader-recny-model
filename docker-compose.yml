@@ -1,0 +1,19 @@
+version: '3'
+services:
+  offlinetrans:
+    image: offline_transcription:latest
+    restart: unless-stopped
+    environment:
+        - BACKEND_URL
+#    ports:
+#        - '80:3000'
+
+  offlinetransback:
+    image: offline_transcription_back:latest
+    restart: unless-stopped
+    volumes:
+     - ./proprietary/:/proprietary
+     - ./whisper/:/whisper
+     - ./fairseqdata/:/fairseqdata
+#    ports:
+#        - '80:4000'
