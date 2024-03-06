@@ -1,3 +1,5 @@
+/* eslint-disable no-script-url */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { Container, Typography } from '@mui/material'
 import { FC } from 'react'
 
