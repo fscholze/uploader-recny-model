@@ -113,7 +113,6 @@ const Home: FC<{}> = () => {
         overflowY: 'scroll'
       }}
     >
-      <Box sx={{ height: 10 }}></Box>
       <Typography variant='h2'>Spóznawanje rěče</Typography>
       <Typography variant='h6' sx={{ paddingBottom: 2 }}>
         BETA werzija *** StT-HS-V.003
