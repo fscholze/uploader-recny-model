@@ -1,9 +1,7 @@
 import { FormGroup, FormControlLabel, Checkbox, Tooltip } from '@mui/material'
 import { FC } from 'react'
 import { getLanguageModelText } from '../helper/translations'
-
-const possibleModelsDefault: Partial<LanguageModel>[] = ['BOZA_MSA', 'HF']
-const possibleModelsExperimental: LanguageModel[] = ['FB', 'FHG', 'DEVEL']
+import { possibleModelsDefault, possibleModelsExperimental } from '../types/constants'
 
 export const LanguageModelSelector: FC<{
   languageModel: LanguageModel
