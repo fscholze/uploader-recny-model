@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import { Container, Typography } from '@mui/material'
 import { FC } from 'react'
 
