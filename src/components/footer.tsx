@@ -11,8 +11,7 @@ export const Footer: FC<{}> = () => (
       position: 'absolute',
       left: 0,
       bottom: 0,
-      FOOTER_HEIGHT: FOOTER_HEIGHT,
-      padding: 1
+      FOOTER_HEIGHT: FOOTER_HEIGHT
     }}
   >
     <Stack direction='row' spacing={12} justifyContent='center' alignItems='center'>

@@ -103,16 +103,14 @@ const Home: FC<{}> = () => {
     <Container
       maxWidth='sm'
       sx={{
-        paddingTop: 5,
+        padding: 5,
         backgroundColor: 'rgba(255, 255, 255, 0.6)',
         borderRadius: 5,
-        display: 'flex',
+        maxHeight: '100%',
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-        maxHeight: '95%',
-        overflowY: 'scroll',
-        paddingBottom: 10
+        overflowY: 'scroll'
       }}
     >
       <Box sx={{ height: 10 }}></Box>

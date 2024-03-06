@@ -3,8 +3,8 @@ import { Footer } from './components/footer'
 import 'react-toastify/dist/ReactToastify.css'
 import { useRoutes } from 'react-router-dom'
 import { defaultRoutes } from './routes/default'
-import { FOOTER_HEIGHT } from './types/constants'
 import { Box } from '@mui/material'
+import { FOOTER_HEIGHT } from './types/constants'
 
 const App: FC<{}> = () => {
   const content = useRoutes(defaultRoutes)
@@ -23,7 +23,15 @@ const App: FC<{}> = () => {
         alignItems: 'center'
       }}
     >
-      <Box sx={{ marginBottom: `${FOOTER_HEIGHT}px` }}>{content}</Box>
+      <Box
+        sx={{
+          height: `calc(100vh - ${FOOTER_HEIGHT}px - 10px)`,
+          marginBottom: `${FOOTER_HEIGHT}px`
+        }}
+      >
+        {content}
+      </Box>
+
       <Footer />
     </div>
   )
