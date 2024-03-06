@@ -58,7 +58,7 @@ export const Footer: FC<{}> = () => (
       </div>
 
       <Link href={ROUTES.imprint} color='inherit' underline='hover'>
-        Impressum
+        Impresum
       </Link>
 
       <Link href={ROUTES['datowy-skit']} color='inherit' underline='hover'>

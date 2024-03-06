@@ -11,7 +11,7 @@ export const defaultRoutes = [
     element: <Home />
   },
   {
-    path: 'impressum',
+    path: 'impresum',
     element: <Imprint />
   },
   {
@@ -23,6 +23,6 @@ export const defaultRoutes = [
 
 export enum ROUTES {
   'home' = '/',
-  'imprint' = '/impressum',
+  'imprint' = '/impresum',
   'datowy-skit' = '/datowy-ski'
 }
