@@ -12,6 +12,7 @@ import { formatSecondsToReadableDuration } from './helper/dates'
 import { sanitize } from './helper/sanitizer'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { KeyboardArrowDown, KeyboardArrowUp, CloudUploadOutlined } from '@mui/icons-material'
+import { Footer } from './components/footer'
 
 const DEFAULT_LANGUAGE_MODEL: LanguageModel = 'BOZA_MSA'
 const DEFAULT_OUTPUT_FORMAT: OutputFormat = 'SRT'
@@ -203,6 +204,7 @@ const App: FC<{}> = () => {
           </>
         )}
       </Container>
+      <Footer />
     </div>
   )
 }
