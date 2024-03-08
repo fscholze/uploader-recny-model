@@ -27,3 +27,8 @@ Potom móžeće conaineraj wuwjesć:
 ```code
 docker-compose up -d
 ```
+
+# Licenca
+
+Hlej dataja "LICENSE".
+
