@@ -1,17 +1,17 @@
 import { Box, Button, Container, Typography } from '@mui/material'
-import { FileUploader } from '../components/file-uploader'
 import { FC, useState } from 'react'
-import { OutputFormatSelector } from '../components/output-format-selector'
-import { generateId } from '../helper/random'
-import { LinearProgressWithLabel } from '../components/linear-progress-with-label'
+import { OutputFormatSelector } from '../../components/output-format-selector'
+import { generateId } from '../../helper/random'
+import { LinearProgressWithLabel } from '../../components/linear-progress-with-label'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import { formatSecondsToReadableDuration } from '../helper/dates'
-import { sanitize } from '../helper/sanitizer'
+import { formatSecondsToReadableDuration } from '../../helper/dates'
+import { sanitize } from '../../helper/sanitizer'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { CloudUploadOutlined } from '@mui/icons-material'
-import { DEFAULT_LEX_FORMAT, DEFAULT_OUTPUT_FORMAT, INVALID_DURATION } from '../types/constants'
-import { LexFormatSelector } from '../components/lex-format-selector'
+import { DEFAULT_LEX_FORMAT, DEFAULT_OUTPUT_FORMAT, INVALID_DURATION } from '../../types/constants'
+import { LexFormatSelector } from '../../components/lex-format-selector'
+import { UploadSection } from './components/upload-section'
 
 let token = generateId(32)
 
@@ -25,31 +25,65 @@ const Slownik: FC<{}> = () => {
     duration: INVALID_DURATION // set duration of server calculation in seconds
   })
 
-  const [file, setFile] = useState<File | null>(null)
+  const [files, setFiles] = useState<{
+    phonmap: File | null
+    exceptions: File | null
+    korpus: File | null
+  }>({ phonmap: null, exceptions: null, korpus: null })
   const [resultFileUrl, setResultFileUrl] = useState<string | null>(null)
+
+  const resetFiles = () => {
+    setFiles({ phonmap: null, exceptions: null, korpus: null })
+  }
 
   const resetInputs = () => {
     token = generateId(32)
-    setFile(null)
+    resetFiles()
     setResultFileUrl(null)
     setIsLoading(false)
     setProgess({ status: 0, message: '', duration: INVALID_DURATION })
   }
 
-  const onSetFile = (file: File) => {
+  const onSetFile = (type: SlownikFiles, file: File) => {
     const parsedFile = new File([file], sanitize(file.name), { type: file.type })
-    setFile(parsedFile)
+
+    switch (type) {
+      case 'phonmap':
+        setFiles((prevValue) => {
+          return { ...prevValue, phonmap: parsedFile }
+        })
+        break
+      case 'exceptions':
+        setFiles((prevValue) => {
+          return { ...prevValue, exceptions: parsedFile }
+        })
+        break
+      case 'korpus':
+        setFiles((prevValue) => {
+          return { ...prevValue, korpus: parsedFile }
+        })
+        break
+    }
+  }
+
+  const allFilesSelected = () => {
+    if (files.phonmap === null || files.exceptions === null || files.korpus === null) {
+      return false
+    }
+    return true
   }
 
   const onStartUpload = () => {
     setIsLoading(true)
-    if (file) {
+    if (allFilesSelected()) {
       const formData = new FormData()
-      formData.append('filename', sanitize(file.name))
+      formData.append('filename', sanitize(files.korpus!.name))
       formData.append('token', token)
       formData.append('languageModel', lexFormat)
       formData.append('outputFormat', outputFormat)
-      formData.append('file', file)
+      formData.append('korpus', files.korpus!)
+      formData.append('phonmap', files.phonmap!)
+      formData.append('exceptions', files.exceptions!)
 
       setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
       axios
@@ -69,6 +103,7 @@ const Slownik: FC<{}> = () => {
         })
     }
   }
+
   const getStatus = () => {
     setTimeout(() => {
       axios
@@ -78,7 +113,7 @@ const Slownik: FC<{}> = () => {
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
+              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
@@ -110,7 +145,7 @@ const Slownik: FC<{}> = () => {
       <Typography variant='h6' sx={{ paddingBottom: 2 }}>
         BETA werzija *** StT-HSB-V0.0.12
       </Typography>
-      <FileUploader file={file} isDisabled={isLoading} onSetFile={onSetFile} />
+      <UploadSection isLoading={isLoading} files={files} setFile={onSetFile} />
       <Typography variant='h6' sx={{ paddingTop: 3 }}>
         Zaměr a format wuzwolić
       </Typography>
@@ -135,7 +170,7 @@ const Slownik: FC<{}> = () => {
           loadingPosition='start'
           startIcon={<CloudUploadOutlined />}
           variant='contained'
-          disabled={file === null}
+          disabled={allFilesSelected() === false}
         >
           <span>Upload</span>
         </LoadingButton>
