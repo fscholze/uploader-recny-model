@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { getLexFormatText } from '../helper/translations'
 import { possibleLexFormats } from '../types/constants'
 
-export const WariantaSelector: FC<{
+export const LexFormatSelector: FC<{
   lexFormat: LexFormat
   isDisabled: boolean
   onChangeLexFormat: (format: LexFormat) => void
