@@ -15,10 +15,12 @@ const VisuallyHiddenInput = styled('input')({
 })
 
 export const FileUploader: FC<{
+  title?: string
   file: File | null
   isDisabled: boolean
+  acceptExtensions?: string
   onSetFile: (file: File) => void
-}> = ({ file, isDisabled, onSetFile }) => {
+}> = ({ title = 'Wuzwol dataju', file, isDisabled, acceptExtensions, onSetFile }) => {
   const uploadInputRef = useRef<HTMLInputElement>(null)
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +57,8 @@ export const FileUploader: FC<{
           sx={{ color: 'rgb(164,243,243)' }}
           disabled={isDisabled}
         >
-          Wuzwol dataju
-          <VisuallyHiddenInput type='file' onChange={onFileChange} />
+          {title}
+          <VisuallyHiddenInput type='file' onChange={onFileChange} accept={acceptExtensions} />
         </Button>
         {file && (
           <div style={{ paddingTop: 5 }}>
