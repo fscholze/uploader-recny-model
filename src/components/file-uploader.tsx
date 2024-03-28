@@ -37,46 +37,44 @@ export const FileUploader: FC<{
   }, [file])
 
   return (
-    <>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: file ? 'space-between' : 'center',
-          width: '100%',
-          maxWidth: 400
-        }}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: file ? 'space-between' : 'center',
+        width: '100%',
+        maxWidth: 400
+      }}
+    >
+      <Button
+        component='label'
+        role={undefined}
+        variant='contained'
+        tabIndex={-1}
+        startIcon={<CloudUploadIcon />}
+        sx={{ color: 'rgb(164,243,243)' }}
+        disabled={isDisabled}
       >
-        <Button
-          component='label'
-          role={undefined}
-          variant='contained'
-          tabIndex={-1}
-          startIcon={<CloudUploadIcon />}
-          sx={{ color: 'rgb(164,243,243)' }}
-          disabled={isDisabled}
-        >
-          {title}
-          <VisuallyHiddenInput type='file' onChange={onFileChange} accept={acceptExtensions} />
-        </Button>
-        {file && (
-          <div style={{ paddingTop: 5 }}>
-            <Typography variant='body1' textAlign='left'>
-              Drobnosće dataje:
-            </Typography>
-            <Typography variant='body2' textAlign='left'>
-              * mjeno: {file.name}
-            </Typography>
-            <Typography variant='body2' textAlign='left'>
-              * typ dataje: {file.type}
-            </Typography>
-            <Typography variant='body2' textAlign='left'>
-              * wulkosć: {file.size} bytes
-            </Typography>
-          </div>
-        )}
-      </div>
-    </>
+        {title}
+        <VisuallyHiddenInput type='file' onChange={onFileChange} accept={acceptExtensions} />
+      </Button>
+      {file && (
+        <div style={{ paddingTop: 5 }}>
+          <Typography variant='body1' textAlign='left'>
+            Drobnosće dataje:
+          </Typography>
+          <Typography variant='body2' textAlign='left'>
+            * mjeno: {file.name}
+          </Typography>
+          <Typography variant='body2' textAlign='left'>
+            * typ dataje: {file.type}
+          </Typography>
+          <Typography variant='body2' textAlign='left'>
+            * wulkosć: {file.size} bytes
+          </Typography>
+        </div>
+      )}
+    </div>
   )
 }
