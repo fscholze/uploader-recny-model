@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { Navigate } from 'react-router-dom'
 
 const Home = lazy(() => import('../features/home'))
+const Slownik = lazy(() => import('../features/slownik'))
 const Imprint = lazy(() => import('../features/imprint'))
 const DataProtection = lazy(() => import('../features/data-protection'))
 
@@ -9,6 +10,10 @@ export const defaultRoutes = [
   {
     path: '/',
     element: <Home />
+  },
+  {
+    path: '/slownik',
+    element: <Slownik />
   },
   {
     path: 'impresum',
