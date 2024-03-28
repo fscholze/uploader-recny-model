@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { FileUploader } from '../../../components/file-uploader'
+import { Stack } from '@mui/material'
 
 export const UploadSection: FC<{
   isLoading: boolean
@@ -11,7 +12,7 @@ export const UploadSection: FC<{
   setFile: (type: SlownikFiles, file: File) => void
 }> = ({ isLoading, files, setFile }) => {
   return (
-    <>
+    <Stack spacing={1}>
       <FileUploader
         title='Wuzwol phonmap'
         file={files.phonmap}
@@ -33,6 +34,6 @@ export const UploadSection: FC<{
         isDisabled={isLoading}
         onSetFile={(file) => setFile('korpus', file)}
       />
-    </>
+    </Stack>
   )
 }
