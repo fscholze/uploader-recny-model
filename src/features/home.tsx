@@ -5,13 +5,13 @@ import { FC, useState } from 'react'
 import { OutputFormatSelector } from '../components/output-format-selector'
 import { generateId } from '../helper/random'
 import { LinearProgressWithLabel } from '../components/linear-progress-with-label'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 import { formatSecondsToReadableDuration } from '../helper/dates'
 import { sanitize } from '../helper/sanitizer'
 import LoadingButton from '@mui/lab/LoadingButton'
 import { KeyboardArrowDown, KeyboardArrowUp, CloudUploadOutlined } from '@mui/icons-material'
 import { DEFAULT_LANGUAGE_MODEL, DEFAULT_OUTPUT_FORMAT, INVALID_DURATION } from '../types/constants'
+import { axiosInstanceTranscript } from '../lib/axios'
 
 let token = generateId(32)
 
@@ -52,8 +52,8 @@ const Home: FC<{}> = () => {
       formData.append('file', file)
 
       setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
-      axios
-        .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
+      axiosInstanceTranscript
+        .post('/upload', formData, {
           headers: {
             'content-type': 'multipart/form-data'
           }
@@ -71,8 +71,8 @@ const Home: FC<{}> = () => {
   }
   const getStatus = () => {
     setTimeout(() => {
-      axios
-        .get(process.env.REACT_APP_SERVER_URL + '/status?token=' + token)
+      axiosInstanceTranscript
+        .get(`/status?token=${token}`)
         .then((response) => {
           const { duration, done, status, message } = response.data
           setProgess({ status, message, duration })

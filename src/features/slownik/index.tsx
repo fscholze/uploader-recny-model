@@ -3,7 +3,6 @@ import { FC, useState } from 'react'
 import { OutputFormatSelector } from '../../components/output-format-selector'
 import { generateId } from '../../helper/random'
 import { LinearProgressWithLabel } from '../../components/linear-progress-with-label'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 import { formatSecondsToReadableDuration } from '../../helper/dates'
 import { sanitize } from '../../helper/sanitizer'
@@ -12,6 +11,7 @@ import { CloudUploadOutlined } from '@mui/icons-material'
 import { DEFAULT_LEX_FORMAT, DEFAULT_OUTPUT_FORMAT, INVALID_DURATION } from '../../types/constants'
 import { LexFormatSelector } from '../../components/lex-format-selector'
 import { UploadSection } from './components/upload-section'
+import { axiosInstanceSlownik } from '../../lib/axios'
 
 let token = generateId(32)
 
@@ -86,8 +86,8 @@ const Slownik: FC<{}> = () => {
       formData.append('exceptions', files.exceptions!)
 
       setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
-      axios
-        .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
+      axiosInstanceSlownik
+        .post('upload', formData, {
           headers: {
             'content-type': 'multipart/form-data'
           }
@@ -106,8 +106,8 @@ const Slownik: FC<{}> = () => {
 
   const getStatus = () => {
     setTimeout(() => {
-      axios
-        .get(process.env.REACT_APP_SERVER_URL + '/status?token=' + token)
+      axiosInstanceSlownik
+        .get(`/status?token=${token}`)
         .then((response) => {
           const { duration, done, status, message } = response.data
           setProgess({ status, message, duration })
