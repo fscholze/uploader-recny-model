@@ -53,7 +53,7 @@ const Home: FC<{}> = () => {
 
       setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
       axios
-        .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
+        .post(process.env.REACT_APP_RECOG_SERVER_URL + '/upload', formData, {
           headers: {
             'content-type': 'multipart/form-data'
           }
@@ -72,13 +72,13 @@ const Home: FC<{}> = () => {
   const getStatus = () => {
     setTimeout(() => {
       axios
-        .get(process.env.REACT_APP_SERVER_URL + '/status?token=' + token)
+        .get(process.env.REACT_APP_RECOG_SERVER_URL + '/status?token=' + token)
         .then((response) => {
           const { duration, done, status, message } = response.data
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
+              `${process.env.REACT_APP_RECOG_SERVER_URL}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {

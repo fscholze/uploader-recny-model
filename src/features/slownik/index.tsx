@@ -87,7 +87,7 @@ const Slownik: FC<{}> = () => {
 
       setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
       axios
-        .post(process.env.REACT_APP_SERVER_URL + '/upload', formData, {
+        .post(process.env.REACT_APP_DICT_SERVER_URL + '/upload', formData, {
           headers: {
             'content-type': 'multipart/form-data'
           }
@@ -107,13 +107,13 @@ const Slownik: FC<{}> = () => {
   const getStatus = () => {
     setTimeout(() => {
       axios
-        .get(process.env.REACT_APP_SERVER_URL + '/status?token=' + token)
+        .get(process.env.REACT_APP_DICT_SERVER_URL + '/status?token=' + token)
         .then((response) => {
           const { duration, done, status, message } = response.data
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${outputFormat}`
+              `${process.env.REACT_APP_DICT_SERVER_URL}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
