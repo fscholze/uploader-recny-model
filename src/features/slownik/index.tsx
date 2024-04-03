@@ -116,7 +116,7 @@ const Slownik: FC<{}> = () => {
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_DICT_SERVER_URL}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${outputFormat}`
+              `${process.env.REACT_APP_DICT_SERVER_URL}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${lexFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {
