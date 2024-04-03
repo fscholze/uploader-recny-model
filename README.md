@@ -6,17 +6,17 @@
 docker build -f docker/Dockerfile -t offline_transcription .
 ```
 
-## Serwer-container twarić
+## Serwer-container(y) twarić
 
 Hlej dokumentacija za serwer: [tule](https://github.com/ZalozbaDev/uploader-recny-model-serwer) 
 
-## Zwisk na serwer nastajić
+## Zwisk na serwer(y) nastajić
 
 ```code
 cp docker/env.example .env
 ```
 
-Zapisaće do dataju ".env" URL wašeho serwera.
+Zapisaće do dataju ".env" URL wašeho serwera / wašich serwerow.
 
 ## Container wuwjesć
 

@@ -81,6 +81,9 @@ const Slownik: FC<{}> = () => {
       formData.append('token', token)
       formData.append('languageModel', lexFormat)
       formData.append('outputFormat', outputFormat)
+      formData.append('korpusname', files.korpus!.name)
+      formData.append('phonmapname', files.phonmap!.name)
+      formData.append('exceptionsname', files.exceptions!.name)
       formData.append('korpus', files.korpus!)
       formData.append('phonmap', files.phonmap!)
       formData.append('exceptions', files.exceptions!)
@@ -113,7 +116,7 @@ const Slownik: FC<{}> = () => {
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${outputFormat}`
+              `${process.env.REACT_APP_API_URL_SLOWNIK}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${lexFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {

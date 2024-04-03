@@ -78,7 +78,7 @@ const Home: FC<{}> = () => {
           setProgess({ status, message, duration })
           if (done === true) {
             setResultFileUrl(
-              `${process.env.REACT_APP_SERVER_URL}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
+              `${process.env.REACT_APP_API_URL_TRANSCRIPT}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
             )
             toast('Dataja je so analysowala 🎉')
           } else {

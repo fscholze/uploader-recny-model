@@ -4,7 +4,8 @@ services:
     image: offline_transcription:latest
     restart: unless-stopped
     environment:
-        - BACKEND_URL
+        - BACKEND_URL_RECOG
+        - BACKEND_URL_DICT
 #    ports:
 #        - '80:3000'
 
@@ -17,3 +18,9 @@ services:
      - ./fairseqdata/:/fairseqdata
 #    ports:
 #        - '80:4000'
+
+  dictback:
+    image: phonetics_back:latest
+    restart: unless-stopped
+#    ports:
+#        - '80:4001'
