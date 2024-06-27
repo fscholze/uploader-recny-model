@@ -4,9 +4,12 @@ MAINTAINER Daniel Sobe <daniel.sobe@sorben.com>
 # docker build -t offline_transcription .
 # docker build -t offline_transcription . --no-cache
 
-RUN touch CCC
+RUN mkdir -p /uploader-recny-model/public
+RUN mkdir -p /uploader-recny-model/src
 
-RUN git clone https://github.com/ZalozbaDev/uploader-recny-model
+COPY public                                       /uploader-recny-model/public
+COPY src                                          /uploader-recny-model/src
+COPY package.json package-lock.json tsconfig.json /uploader-recny-model
 
 RUN cd uploader-recny-model && npm install
 

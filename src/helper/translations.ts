@@ -13,6 +13,12 @@ export const getLanguageModelText = (
         description:
           'za powŝitkowne rozmołwy - HuggingFace Whisper "small" wusměrjene na Hornjoserbšćinu'
       }
+    case 'EURO':
+      return {
+        title: 'KI model Europeady 2022',
+        description:
+          'za transkript Europeady - HuggingFace Whisper "base" wusměrjene na hry Europeady 2022'
+      }
     case 'FB':
       return { title: 'wjacerěčny KI model', description: 'za powŝitkowne rozmołwy - Facebook MMS' }
     case 'BOZA_MSA':

@@ -70,6 +70,10 @@ export const Footer: FC<{}> = () => {
           'https://huggingface.co/spaces/Korla/hsb_stt_demo/tree/main'
         )}
         {getMenuPoint(
+          'Europeada 2022 HSB modele (huggingface hub)',
+          'https://huggingface.co/danielzoba/whisper_small_adapted_2024_06_03'
+        )}
+        {getMenuPoint(
           'Fraunhofer IKTS (homepage)',
           'https://www.ikts.fraunhofer.de/de/industrieloesungen/akustische_diagnostik/bio_sprachsignale.html'
         )}
