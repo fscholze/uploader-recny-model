@@ -11,7 +11,13 @@ export const getLanguageModelText = (
       return {
         title: 'powšitkowny KI model (doporučene)',
         description:
-          'za powŝitkowne rozmołwy - HuggingFace Whisper "small" wusměrjene na Hornjoserbšćinu'
+          'za powšitkowne rozmołwy - HuggingFace Whisper "small" wusměrjene na Hornjoserbšćinu'
+      }
+    case 'HFBIG':
+      return {
+        title: 'wulki powšitkowny KI model',
+        description:
+          'za powšitkowne rozmołwy - HuggingFace Whisper "large" wusměrjene na Hornjoserbšćinu'
       }
     case 'EURO':
       return {
