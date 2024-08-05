@@ -15,7 +15,7 @@ export const getLanguageModelText = (
       }
     case 'HFBIG':
       return {
-        title: 'wulki powšitkowny KI model',
+        title: 'wulki powšitkowny KI model (pomału)',
         description:
           'za powšitkowne rozmołwy - HuggingFace Whisper "large" wusměrjene na Hornjoserbšćinu'
       }
