@@ -1,4 +1,4 @@
-type LanguageModel = 'FHG' | 'HF' | 'HFBIG' | 'EURO' | 'FB' | 'BOZA_MSA' | 'DEVEL'
+type LanguageModel = 'FHG' | 'HF' | 'HFBIG' | 'GMEJ' | 'EURO' | 'FB' | 'BOZA_MSA' | 'DEVEL'
 
 type OutputFormat = 'TXT' | 'SRT'
 

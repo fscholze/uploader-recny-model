@@ -32,6 +32,11 @@ export const getLanguageModelText = (
         title: 'klasiski model za bože mšě',
         description: 'wusměrjene na cyrkwinsku rěč - Fraunhofer recIKTS'
       }
+    case 'GMEJ':
+      return {
+        title: 'klasiski model za gmejnske posedźenja',
+        description: 'wusměrjene na słowoskład posedźenjow - Fraunhofer recIKTS'
+      }
     case 'DEVEL':
       return { title: 'simulator', description: 'jenož za wuwiwarjow' }
   }
