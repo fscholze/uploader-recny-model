@@ -15,7 +15,7 @@ export const getLanguageModelText = (
       }
     case 'HFBIG':
       return {
-        title: 'wulki powšitkowny KI model (pomału)',
+        title: 'wulki powšitkowny KI model (pomału, dokładnje)',
         description:
           'za powšitkowne rozmołwy - HuggingFace Whisper "large" wusměrjene na Hornjoserbšćinu'
       }
@@ -26,7 +26,7 @@ export const getLanguageModelText = (
           'za transkript Europeady - HuggingFace Whisper "base" wusměrjene na hry Europeady 2022'
       }
     case 'FB':
-      return { title: 'wjacerěčny KI model', description: 'za powŝitkowne rozmołwy - Facebook MMS' }
+      return { title: 'wjacerěčny KI model', description: 'za powšitkowne rozmołwy - Facebook MMS' }
     case 'BOZA_MSA':
       return {
         title: 'klasiski model za bože mšě',
