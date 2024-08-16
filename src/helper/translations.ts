@@ -37,6 +37,28 @@ export const getLanguageModelText = (
         title: 'klasiski model za gmejnske posedźenja',
         description: 'wusměrjene na słowoskład posedźenjow - Fraunhofer recIKTS'
       }
+    case 'HF_PAU':
+      return {
+        title: 'powšitkowny KI model (doporučene) (přeskoči přestawki)',
+        description:
+          'za powšitkowne rozmołwy - HuggingFace Whisper "small" wusměrjene na Hornjoserbšćinu'
+      }
+    case 'HFBIG_PAU':
+      return {
+        title: 'wulki powšitkowny KI model (pomału, dokładnje) (přeskoči přestawki)',
+        description:
+          'za powšitkowne rozmołwy - HuggingFace Whisper "large" wusměrjene na Hornjoserbšćinu'
+      }
+    case 'BOZA_MSA_PAU':
+      return {
+        title: 'klasiski model za bože mšě (přeskoči přestawki)',
+        description: 'wusměrjene na cyrkwinsku rěč - Fraunhofer recIKTS'
+      }
+    case 'GMEJ_PAU':
+      return {
+        title: 'klasiski model za gmejnske posedźenja (přeskoči přestawki)',
+        description: 'wusměrjene na słowoskład posedźenjow - Fraunhofer recIKTS'
+      }
     case 'DEVEL':
       return { title: 'simulator', description: 'jenož za wuwiwarjow' }
   }
