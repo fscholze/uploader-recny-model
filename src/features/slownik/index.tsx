@@ -101,7 +101,7 @@ const Slownik: FC<{}> = () => {
           getStatus()
         })
         .catch((error) => {
-          toast.error('Zmylk', error.message)
+          toast.error(error.response.data || 'Zmylk')
           setIsLoading(false)
         })
     }
@@ -124,7 +124,7 @@ const Slownik: FC<{}> = () => {
           }
         })
         .catch((error) => {
-          toast.error('Zmylk', error.message)
+          toast.error(error.response.data || 'Zmylk')
           setIsLoading(false)
         })
     }, 1000)

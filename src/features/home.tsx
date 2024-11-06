@@ -64,7 +64,8 @@ const Home: FC<{}> = () => {
           getStatus()
         })
         .catch((error) => {
-          toast.error('Zmylk', error.message)
+          toast.error(error.response.data || 'Zmylk')
+          resetInputs()
           setIsLoading(false)
         })
     }
@@ -86,7 +87,7 @@ const Home: FC<{}> = () => {
           }
         })
         .catch((error) => {
-          toast.error('Zmylk', error.message)
+          toast.error(error.response.data || 'Zmylk')
           setIsLoading(false)
         })
     }, 1000)
