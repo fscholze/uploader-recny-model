@@ -14,7 +14,7 @@ import { DEFAULT_LANGUAGE_MODEL, DEFAULT_OUTPUT_FORMAT, INVALID_DURATION } from 
 import { axiosInstanceTranscript } from '../lib/axios'
 import Confetti from 'react-confetti'
 const beepFile = require('../audio/message-notification.mp3')
-
+const audio = new Audio(beepFile)
 let token = generateId(32)
 
 const Home: FC<{}> = () => {
@@ -79,7 +79,7 @@ const Home: FC<{}> = () => {
         .get(`/status?token=${token}`)
         .then((response) => {
           const { duration, done, status, message } = response.data
-          setProgess({ status, message, duration })
+          setProgess({ status: parseInt(status, 10), message, duration })
           if (done === true) {
             setResultFileUrl(
               `${process.env.REACT_APP_API_URL_TRANSCRIPT}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
@@ -90,7 +90,11 @@ const Home: FC<{}> = () => {
                 body: 'Dataja je so analysowala 🎉'
                 // icon: 'https://placehold.co/400'
               })
-            new Audio(beepFile).play()
+
+            audio.load()
+            audio.play().catch((error) => {
+              console.log(error)
+            })
             setResultFinishedModalOpened(true)
             toast('Dataja je so analysowala 🎉')
           } else {

@@ -14,6 +14,7 @@ import { UploadSection } from './components/upload-section'
 import { axiosInstanceSlownik } from '../../lib/axios'
 import Confetti from 'react-confetti'
 const beepFile = require('../../audio/message-notification.mp3')
+const audio = new Audio(beepFile)
 
 let token = generateId(32)
 
@@ -117,7 +118,7 @@ const Slownik: FC<{}> = () => {
         .get(`/status?token=${token}`)
         .then(async (response) => {
           const { duration, done, status, message } = response.data
-          setProgess({ status, message, duration })
+          setProgess({ status: parseInt(status, 10), message, duration })
           if (done === true) {
             setResultFileUrl(
               `${process.env.REACT_APP_API_URL_SLOWNIK}/download?token=${token}&filename=${sanitize(files.korpus!.name)}&outputFormat=${lexFormat}`
@@ -128,7 +129,10 @@ const Slownik: FC<{}> = () => {
                 // icon: 'https://placehold.co/400'
               })
             }
-            new Audio(beepFile).play()
+            audio.load()
+            audio.play().catch((error) => {
+              console.log(error)
+            })
             setResultFinishedModalOpened(true)
             toast('Dataja je so analysowala 🎉')
           } else {
