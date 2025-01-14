@@ -1,4 +1,4 @@
-import { Box, Button, Container, IconButton, Typography } from '@mui/material'
+import { Box, Button, Container, Dialog, IconButton, Typography } from '@mui/material'
 import { FileUploader } from '../components/file-uploader'
 import { LanguageModelSelector } from '../components/language-model-selector'
 import { FC, useState } from 'react'
@@ -12,7 +12,9 @@ import LoadingButton from '@mui/lab/LoadingButton'
 import { KeyboardArrowDown, KeyboardArrowUp, CloudUploadOutlined } from '@mui/icons-material'
 import { DEFAULT_LANGUAGE_MODEL, DEFAULT_OUTPUT_FORMAT, INVALID_DURATION } from '../types/constants'
 import { axiosInstanceTranscript } from '../lib/axios'
-
+import Confetti from 'react-confetti'
+const beepFile = require('../audio/message-notification.mp3')
+const audio = new Audio(beepFile)
 let token = generateId(32)
 
 const Home: FC<{}> = () => {
@@ -27,7 +29,7 @@ const Home: FC<{}> = () => {
   const [devModeOpened, setDevModeOpened] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [resultFileUrl, setResultFileUrl] = useState<string | null>(null)
-
+  const [resultFinishedModalOpened, setResultFinishedModalOpened] = useState(false)
   const resetInputs = () => {
     token = generateId(32)
     setFile(null)
@@ -58,35 +60,49 @@ const Home: FC<{}> = () => {
             'content-type': 'multipart/form-data'
           }
         })
-        .then(() => {
+        .then(async () => {
           toast('Start 🚀')
+          const permission = await Notification.requestPermission()
           setProgess({ status: 0, message: 'Začita so', duration: INVALID_DURATION })
-          getStatus()
+          getStatus(permission)
         })
         .catch((error) => {
-          toast.error('Zmylk', error.message)
+          toast.error(error.response?.data || 'Zmylk')
+          resetInputs()
           setIsLoading(false)
         })
     }
   }
-  const getStatus = () => {
+  const getStatus = (notificationPermission: NotificationPermission) => {
     setTimeout(() => {
       axiosInstanceTranscript
         .get(`/status?token=${token}`)
         .then((response) => {
           const { duration, done, status, message } = response.data
-          setProgess({ status, message, duration })
+          setProgess({ status: parseInt(status, 10), message, duration })
           if (done === true) {
             setResultFileUrl(
               `${process.env.REACT_APP_API_URL_TRANSCRIPT}/download?token=${token}&filename=${sanitize(file!.name)}&outputFormat=${outputFormat}`
             )
+
+            if (Notification.permission === 'granted')
+              new Notification('Spóznawanje rěče', {
+                body: 'Dataja je so analysowala 🎉'
+                // icon: 'https://placehold.co/400'
+              })
+
+            audio.load()
+            audio.play().catch((error) => {
+              console.log(error)
+            })
+            setResultFinishedModalOpened(true)
             toast('Dataja je so analysowala 🎉')
           } else {
-            getStatus()
+            getStatus(notificationPermission)
           }
         })
         .catch((error) => {
-          toast.error('Zmylk', error.message)
+          toast.error(error.response?.data || 'Zmylk')
           setIsLoading(false)
         })
     }, 1000)
@@ -181,6 +197,24 @@ const Home: FC<{}> = () => {
           </Typography>
         </>
       )}
+      {resultFileUrl && <Confetti numberOfPieces={4000} recycle={false} tweenDuration={100000} />}
+      <Dialog open={resultFinishedModalOpened} onClose={() => setResultFinishedModalOpened(false)}>
+        <Box
+          sx={{
+            padding: 5,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: 2
+          }}
+        >
+          <Typography variant='h4'>Hotowe!</Typography>
+          <Button variant='outlined' onClick={() => setResultFinishedModalOpened(false)}>
+            Cool
+          </Button>
+        </Box>
+      </Dialog>
     </Container>
   )
 }
